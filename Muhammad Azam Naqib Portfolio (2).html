@@ -1,0 +1,575 @@
+<!DOCTYPE html>
+<html lang="id" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Muhammad Azam Naqib | Portofolio Interaktif</title>
+    
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@500;700;900&display=swap" rel="stylesheet">
+
+    <style>
+        :root {
+            --transition-theme: background 0.4s ease, color 0.4s ease, border-color 0.4s ease, box-shadow 0.4s ease;
+        }
+
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            background: var(--bg-main);
+            color: var(--text-main);
+            transition: var(--transition-theme);
+            overflow-x: hidden;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        @media (pointer: fine) { body { cursor: none; } }
+        @media (pointer: coarse) { body { cursor: auto; } }
+
+        /* --- THEME 1: CLEAN MINIMAL --- */
+        body.theme-clean {
+            --bg-main: #f8fafc;
+            --bg-glass: rgba(255, 255, 255, 0.9);
+            --bg-card: #ffffff;
+            --bg-input: #f1f5f9;
+            --text-main: #0f172a;
+            --text-muted: #64748b;
+            --accent: #2563eb;
+            --accent-hover: #1d4ed8;
+            --accent-text: #ffffff;
+            --border-color: #e2e8f0;
+            --shadow-card: 0 10px 25px -5px rgba(0, 0, 0, 0.05);
+            --radius-card: 16px;
+            --radius-btn: 10px;
+            --blur-fx: blur(12px);
+            --cursor-color: #2563eb;
+            --cursor-border: 2px solid rgba(37, 99, 235, 0.4);
+            --progress-bg: #e2e8f0;
+            --border-width: 1px;
+        }
+
+        /* --- THEME 2: NEOBRUTALISM --- */
+        body.theme-neo {
+            --bg-main: #fdfae5;
+            --bg-glass: #fdfae5;
+            --bg-card: #ffffff;
+            --bg-input: #ffffff;
+            --text-main: #111111;
+            --text-muted: #333333;
+            --accent: #ff5757;
+            --accent-hover: #ff3333;
+            --accent-text: #ffffff;
+            --border-color: #111111;
+            --shadow-card: 5px 5px 0px #111111;
+            --radius-card: 0px;
+            --radius-btn: 0px;
+            --blur-fx: none;
+            --cursor-color: #111111;
+            --cursor-border: 3px solid #111111;
+            --progress-bg: #111111;
+            --border-width: 3px;
+            font-family: 'Space Grotesk', sans-serif;
+        }
+        body.theme-neo h1, body.theme-neo h2, body.theme-neo h3 { text-transform: uppercase; font-weight: 900; }
+        body.theme-neo .dynamic-btn:active { transform: translate(4px, 4px) !important; box-shadow: 0 0 0 #111 !important; }
+
+        /* --- THEME 3: LIQUID GLASSMORPHISM --- */
+        body.theme-glass {
+            --bg-main: #0b0f19;
+            --bg-glass: rgba(11, 15, 25, 0.75);
+            --bg-card: rgba(255, 255, 255, 0.04);
+            --bg-input: rgba(255, 255, 255, 0.07);
+            --text-main: #f8fafc;
+            --text-muted: #94a3b8;
+            --accent: #8b5cf6;
+            --accent-hover: #7c3aed;
+            --accent-text: #ffffff;
+            --border-color: rgba(255, 255, 255, 0.12);
+            --shadow-card: 0 12px 40px 0 rgba(0, 0, 0, 0.5), inset 0 1px 0 0 rgba(255, 255, 255, 0.1);
+            --radius-card: 24px;
+            --radius-btn: 14px;
+            --blur-fx: blur(24px);
+            --cursor-color: #c084fc;
+            --cursor-border: 1px solid rgba(192, 132, 252, 0.6);
+            --progress-bg: rgba(255, 255, 255, 0.1);
+            --border-width: 1px;
+        }
+
+        /* --- THEME 4: 3D CLAY MINIMALIST --- */
+        body.theme-clay {
+            --bg-main: #eef2f7;
+            --bg-glass: rgba(238, 242, 247, 0.85);
+            --bg-card: #eef2f7;
+            --bg-input: #eef2f7;
+            --text-main: #2D3748;
+            --text-muted: #718096;
+            --accent: #6366f1;
+            --accent-hover: #4f46e5;
+            --accent-text: #ffffff;
+            --border-color: transparent;
+            --shadow-card: 12px 12px 24px #cbd5e1, -12px -12px 24px #ffffff;
+            --radius-card: 28px;
+            --radius-btn: 18px;
+            --blur-fx: blur(10px);
+            --cursor-color: #6366f1;
+            --cursor-border: none;
+            --progress-bg: #cbd5e1;
+            --border-width: 0px;
+            --clay-inset: inset 4px 4px 8px #cbd5e1, inset -4px -4px 8px #ffffff;
+        }
+
+        .liquid-bg {
+            position: fixed; inset: 0; z-index: -1; overflow: hidden;
+            display: none; background: #0b0f19;
+        }
+        body.theme-glass .liquid-bg { display: block; }
+        .mesh-blob {
+            position: absolute; filter: blur(100px); opacity: 0.5; border-radius: 50%;
+            animation: floatMesh 16s infinite alternate ease-in-out; will-change: transform;
+        }
+        .mesh-1 { top: -10%; left: -10%; width: 500px; height: 500px; background: #6366f1; }
+        .mesh-2 { bottom: -10%; right: -5%; width: 600px; height: 600px; background: #ec4899; animation-delay: -5s; }
+        @keyframes floatMesh {
+            0% { transform: translate(0, 0) scale(1); }
+            100% { transform: translate(40px, -40px) scale(1.1); }
+        }
+
+        .dynamic-card {
+            background: var(--bg-card);
+            border: var(--border-width) solid var(--border-color);
+            box-shadow: var(--shadow-card);
+            border-radius: var(--radius-card);
+            backdrop-filter: var(--blur-fx); -webkit-backdrop-filter: var(--blur-fx);
+            transition: var(--transition-theme);
+        }
+
+        .dynamic-btn {
+            background: var(--accent); color: var(--accent-text);
+            border: var(--border-width) solid var(--border-color);
+            border-radius: var(--radius-btn); box-shadow: var(--shadow-card);
+            transition: all 0.25s ease; cursor: none;
+        }
+        @media (pointer: coarse) { .dynamic-btn, .interactive { cursor: pointer !important; } }
+        .dynamic-btn:hover { background: var(--accent-hover); transform: translateY(-2px); }
+        body.theme-clay .dynamic-btn:active { box-shadow: var(--clay-inset); transform: scale(0.97); }
+
+        .dynamic-input {
+            background: var(--bg-input); border: var(--border-width) solid var(--border-color);
+            border-radius: var(--radius-btn); color: var(--text-main);
+            transition: var(--transition-theme);
+        }
+        .dynamic-input:focus { outline: none; border-color: var(--accent); }
+        body.theme-clay .dynamic-input { box-shadow: var(--clay-inset); }
+
+        .progress-bar-bg { background: var(--progress-bg); border-radius: 99px; overflow: hidden; }
+        .progress-bar-fill { height: 100%; background: var(--accent); width: 0%; transition: width 1.2s cubic-bezier(0.16, 1, 0.3, 1); border-radius: 99px; }
+
+        .reveal { opacity: 0; transform: translateY(20px); will-change: opacity, transform; transition: all 0.6s cubic-bezier(0.16, 1, 0.3, 1); }
+        .reveal.active { opacity: 1; transform: translateY(0); }
+
+        #cursor-dot, #cursor-outline { position: fixed; top: 0; left: 0; transform: translate(-50%, -50%); border-radius: 50%; pointer-events: none; z-index: 9999; }
+        #cursor-dot { width: 8px; height: 8px; background: var(--cursor-color); }
+        #cursor-outline { width: 36px; height: 36px; border: var(--cursor-border); transition: width 0.2s, height 0.2s, background-color 0.2s; }
+        body.cursor-hover #cursor-outline { width: 50px; height: 50px; background: rgba(150,150,150,0.1); border-color: var(--text-main); }
+
+        .hide-search { display: none !important; }
+        .game-cell {
+            background: var(--bg-card); border: var(--border-width) solid var(--border-color);
+            box-shadow: var(--shadow-card); border-radius: var(--radius-btn);
+            font-size: 2rem; font-weight: 900; display: flex; align-items: center; justify-content: center;
+            height: 80px; cursor: none; transition: all 0.2s ease;
+        }
+        .game-cell:hover { background: var(--bg-input); }
+    </style>
+</head>
+<body class="theme-clean">
+
+    <div class="liquid-bg">
+        <div class="mesh-blob mesh-1"></div>
+        <div class="mesh-blob mesh-2"></div>
+    </div>
+
+    <div id="cursor-dot" class="hidden md:block"></div>
+    <div id="cursor-outline" class="hidden md:block"></div>
+
+    <header class="fixed top-0 w-full z-50 border-b" style="background: var(--bg-glass); backdrop-filter: var(--blur-fx); -webkit-backdrop-filter: var(--blur-fx); border-color: var(--border-color);">
+        <div class="max-w-7xl mx-auto px-6 h-20 flex items-center justify-between">
+            <a href="#home" class="interactive text-2xl font-black tracking-tighter flex items-center gap-2">
+                <span class="w-8 h-8 rounded-full flex items-center justify-center font-bold text-xs" style="background: var(--text-main); color: var(--bg-main);">AN</span>
+                Azam.
+            </a>
+
+            <div class="hidden lg:flex items-center gap-6 flex-1 justify-end">
+                <input type="text" id="globalSearch" oninput="filterPortfolio(this.value)" placeholder="🔍 Cari keahlian atau proyek..." class="dynamic-input py-2 px-4 text-sm font-medium interactive w-60">
+
+                <nav class="flex gap-4">
+                    <a href="#about" class="interactive font-semibold text-sm hover:opacity-70 transition-opacity">Tentang</a>
+                    <a href="#skills" class="interactive font-semibold text-sm hover:opacity-70 transition-opacity">Keahlian</a>
+                    <a href="#projects" class="interactive font-semibold text-sm hover:opacity-70 transition-opacity">Proyek</a>
+                    <a href="#entertainment" class="interactive font-semibold text-sm hover:opacity-70 transition-opacity">Hiburan & Musik</a>
+                </nav>
+
+                <div class="flex gap-2 pl-6 border-l items-center" style="border-color: var(--border-color)">
+                    <button onclick="setTheme('theme-clean')" class="interactive w-5 h-5 rounded-full bg-white border border-gray-300 hover:scale-110 transition-transform" title="Clean Minimal"></button>
+                    <button onclick="setTheme('theme-neo')" class="interactive w-5 h-5 rounded-none bg-yellow-300 border-2 border-black hover:scale-110 transition-transform" title="Neobrutalism"></button>
+                    <button onclick="setTheme('theme-glass')" class="interactive w-5 h-5 rounded-full bg-gradient-to-br from-indigo-600 to-purple-600 border border-white/40 hover:scale-110 transition-transform" title="Liquid Glass"></button>
+                    <button onclick="setTheme('theme-clay')" class="interactive w-5 h-5 rounded-full bg-[#eef2f7] shadow-[inset_2px_2px_4px_#cbd5e1] hover:scale-110 transition-transform" title="3D Clay"></button>
+                </div>
+            </div>
+
+            <button onclick="document.getElementById('mobileMenu').classList.toggle('hidden')" class="lg:hidden interactive p-2">
+                <svg class="w-6 h-6 fill-current" viewBox="0 0 24 24"><path d="M3 18h18v-2H3v2zm0-5h18v-2H3v2zm0-7v2h18V6H3z"/></svg>
+            </button>
+        </div>
+        
+        <div id="mobileMenu" class="hidden lg:hidden p-5 border-b space-y-4" style="background: var(--bg-glass); border-color: var(--border-color);">
+            <input type="text" oninput="filterPortfolio(this.value)" placeholder="Cari..." class="dynamic-input w-full py-2 px-4 text-sm">
+            <div class="flex flex-col gap-3 font-bold">
+                <a href="#about" onclick="document.getElementById('mobileMenu').classList.add('hidden')">Tentang</a>
+                <a href="#skills" onclick="document.getElementById('mobileMenu').classList.add('hidden')">Keahlian</a>
+                <a href="#projects" onclick="document.getElementById('mobileMenu').classList.add('hidden')">Proyek</a>
+                <a href="#entertainment" onclick="document.getElementById('mobileMenu').classList.add('hidden')">Hiburan & Musik</a>
+            </div>
+            <div class="flex gap-3 pt-3 border-t" style="border-color: var(--border-color);">
+                <button onclick="setTheme('theme-clean'); document.getElementById('mobileMenu').classList.add('hidden')" class="w-7 h-7 rounded-full bg-white border border-gray-300"></button>
+                <button onclick="setTheme('theme-neo'); document.getElementById('mobileMenu').classList.add('hidden')" class="w-7 h-7 rounded-none bg-yellow-300 border-2 border-black"></button>
+                <button onclick="setTheme('theme-glass'); document.getElementById('mobileMenu').classList.add('hidden')" class="w-7 h-7 rounded-full bg-indigo-600"></button>
+                <button onclick="setTheme('theme-clay'); document.getElementById('mobileMenu').classList.add('hidden')" class="w-7 h-7 rounded-full bg-[#eef2f7]"></button>
+            </div>
+        </div>
+    </header>
+
+    <main id="home" class="pt-36 pb-24 px-6 max-w-7xl mx-auto space-y-28">
+        
+        <section id="about" class="min-h-[60vh] flex flex-col justify-center reveal">
+            <div class="max-w-4xl search-item" data-search="azam naqib software data engineer science">
+                <div class="inline-block px-4 py-2 rounded-full dynamic-card text-xs font-bold mb-6">
+                    ✨ Portofolio Resmi & Profesional
+                </div>
+                <h1 class="text-4xl md:text-7xl font-black leading-tight mb-6">
+                    Halo, Saya <br><span style="color: var(--accent);">Muhammad Azam Naqib</span>
+                </h1>
+                <p class="text-base md:text-xl font-medium opacity-80 mb-10 max-w-2xl leading-relaxed">
+                    Praktisi pengembangan software dan sistem cerdas yang berfokus pada desain antarmuka modern, pemrosesan data, dan performa tinggi.
+                </p>
+                <div class="flex flex-wrap gap-4">
+                    <a href="#projects" class="dynamic-btn interactive px-8 py-4 text-base font-bold">Jelajahi Proyek</a>
+                    <a href="#contact" class="dynamic-card interactive px-8 py-4 text-base font-bold">Hubungi Saya</a>
+                </div>
+            </div>
+        </section>
+
+        <section id="skills" class="reveal pt-4">
+            <h2 class="text-3xl md:text-4xl font-black mb-12">Indikator Kemampuan</h2>
+            <div class="grid md:grid-cols-2 gap-10">
+                <div class="search-item space-y-3" data-search="python data science machine learning">
+                    <div class="flex justify-between font-bold text-sm md:text-base"><span>Python & Machine Learning</span><span>98%</span></div>
+                    <div class="progress-bar-bg h-3 w-full"><div class="progress-bar-fill" data-target="98%"></div></div>
+                </div>
+                <div class="search-item space-y-3" data-search="sql database query analysis">
+                    <div class="flex justify-between font-bold text-sm md:text-base"><span>SQL & Basis Data</span><span>95%</span></div>
+                    <div class="progress-bar-bg h-3 w-full"><div class="progress-bar-fill" data-target="95%"></div></div>
+                </div>
+                <div class="search-item space-y-3" data-search="javascript web frontend ui ux">
+                    <div class="flex justify-between font-bold text-sm md:text-base"><span>JavaScript & Frontend Web</span><span>92%</span></div>
+                    <div class="progress-bar-bg h-3 w-full"><div class="progress-bar-fill" data-target="92%"></div></div>
+                </div>
+                <div class="search-item space-y-3" data-search="c++ programming logic system">
+                    <div class="flex justify-between font-bold text-sm md:text-base"><span>C++ Programming</span><span>90%</span></div>
+                    <div class="progress-bar-bg h-3 w-full"><div class="progress-bar-fill" data-target="90%"></div></div>
+                </div>
+            </div>
+        </section>
+
+        <section id="projects" class="reveal pt-4">
+            <h2 class="text-3xl md:text-4xl font-black mb-12">Proyek Unggulan</h2>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <div class="dynamic-card interactive search-item p-8 md:col-span-2 hover:-translate-y-2 transition-transform" data-search="data science ai dashboard analytics">
+                    <span class="text-xs font-bold px-3 py-1 rounded-full border mb-4 inline-block" style="border-color: var(--border-color);">Python / AI</span>
+                    <h3 class="text-2xl font-black mb-3">Predictive Analytics Dashboard</h3>
+                    <p class="font-medium opacity-80 max-w-lg">Dashboard interaktif berbasis Machine Learning untuk memproses dataset besar, menghasilkan visualisasi tren, dan wawasan prediktif.</p>
+                </div>
+                <div class="dynamic-card interactive search-item p-8 hover:-translate-y-2 transition-transform" data-search="c++ trading algorithm system">
+                    <span class="text-xs font-bold px-3 py-1 rounded-full border mb-4 inline-block" style="border-color: var(--border-color);">C++</span>
+                    <h3 class="text-xl font-black mb-3">HFT Trading Engine</h3>
+                    <p class="font-medium opacity-80 text-sm">Sistem eksekusi latensi rendah dengan manajemen memori optimal.</p>
+                </div>
+                <div class="dynamic-card interactive search-item p-8 hover:-translate-y-2 transition-transform" data-search="sql data warehouse etl pipeline">
+                    <span class="text-xs font-bold px-3 py-1 rounded-full border mb-4 inline-block" style="border-color: var(--border-color);">SQL / ETL</span>
+                    <h3 class="text-xl font-black mb-3">Enterprise Data Pipeline</h3>
+                    <p class="font-medium opacity-80 text-sm">Otomatisasi jalur data terintegrasi untuk pelaporan bisnis harian.</p>
+                </div>
+                <div class="dynamic-card interactive search-item p-8 md:col-span-2 hover:-translate-y-2 transition-transform" data-search="web app multi theme UI engine">
+                    <span class="text-xs font-bold px-3 py-1 rounded-full border mb-4 inline-block" style="border-color: var(--border-color);">Web UI</span>
+                    <h3 class="text-2xl font-black mb-3">Multi-Theme Web Suite</h3>
+                    <p class="font-medium opacity-80 max-w-lg">Arsitektur web interaktif dengan mesin tema dinamis (Clean Minimal, Neobrutalism, Liquid Glass, dan 3D Clay).</p>
+                </div>
+            </div>
+        </section>
+
+        <section id="entertainment" class="reveal pt-4 grid lg:grid-cols-2 gap-10">
+            
+            <!-- Tic-Tac-Toe Mini-Game -->
+            <div class="dynamic-card p-8 search-item" data-search="game permainan tic tac toe">
+                <div class="flex justify-between items-center mb-6">
+                    <h3 class="text-2xl font-black">Tic-Tac-Toe Game</h3>
+                    <button onclick="resetGame()" class="dynamic-btn interactive px-4 py-2 text-xs font-bold">Ulangi</button>
+                </div>
+                <div id="gameStatus" class="mb-4 font-bold text-center text-sm">Giliran: X</div>
+                <div class="grid grid-cols-3 gap-3 max-w-[300px] mx-auto" id="gameBoard">
+                    <button class="game-cell interactive" onclick="makeMove(0)"></button>
+                    <button class="game-cell interactive" onclick="makeMove(1)"></button>
+                    <button class="game-cell interactive" onclick="makeMove(2)"></button>
+                    <button class="game-cell interactive" onclick="makeMove(3)"></button>
+                    <button class="game-cell interactive" onclick="makeMove(4)"></button>
+                    <button class="game-cell interactive" onclick="makeMove(5)"></button>
+                    <button class="game-cell interactive" onclick="makeMove(6)"></button>
+                    <button class="game-cell interactive" onclick="makeMove(7)"></button>
+                    <button class="game-cell interactive" onclick="makeMove(8)"></button>
+                </div>
+            </div>
+
+            <!-- Music Player with Live iTunes Search -->
+            <div class="dynamic-card p-8 search-item flex flex-col h-full" data-search="music player lagu audio itunes search">
+                <div class="flex justify-between items-center mb-2">
+                    <h3 class="text-2xl font-black">Audio & Music Hub</h3>
+                    <span class="text-xs font-bold px-2 py-1 rounded dynamic-card">iTunes API</span>
+                </div>
+                <p class="text-xs opacity-80 mb-4">Cari dan putar cuplikan musik favoritmu secara instan.</p>
+                
+                <input type="text" id="musicSearch" placeholder="Cari lagu (contoh: Lofi, Jazz, Pop)..." class="dynamic-input w-full py-2.5 px-4 mb-4 interactive text-sm font-medium">
+                
+                <div id="musicLoading" class="hidden flex justify-center py-4">
+                    <div class="w-6 h-6 border-4 border-transparent rounded-full animate-spin" style="border-top-color: var(--accent);"></div>
+                </div>
+
+                <div id="musicList" class="flex-1 overflow-y-auto space-y-2 max-h-[160px] pr-2">
+                    <!-- Populated via JavaScript -->
+                </div>
+
+                <div id="nowPlaying" class="mt-4 pt-4 border-t flex items-center gap-4 hidden" style="border-color: var(--border-color);">
+                    <img id="npImage" src="" alt="Album" class="w-12 h-12 rounded-lg object-cover">
+                    <div class="flex-1 min-w-0">
+                        <p id="npTitle" class="font-bold text-xs truncate">Judul</p>
+                        <p id="npArtist" class="text-xs opacity-70 truncate">Artis</p>
+                    </div>
+                    <button onclick="toggleAudioPreview()" id="playPauseBtn" class="dynamic-btn interactive w-10 h-10 rounded-full flex items-center justify-center shrink-0 text-sm font-bold">
+                        ▶
+                    </button>
+                </div>
+                <audio id="audioElement" preload="none"></audio>
+            </div>
+        </section>
+    </main>
+
+    <footer id="contact" class="border-t mt-24 reveal" style="border-color: var(--border-color); background: rgba(0,0,0,0.02);">
+        <div class="max-w-7xl mx-auto px-6 py-20 text-center">
+            <h2 class="text-3xl md:text-5xl font-black mb-6">Mari Terhubung.</h2>
+            <p class="font-medium opacity-80 mb-10 max-w-lg mx-auto">Tertarik berkolaborasi atau berdiskusi seputar pemrograman dan data? Hubungi melalui tautan di bawah ini:</p>
+            
+            <div class="flex flex-wrap justify-center gap-4 search-item" data-search="kontak email linkedin github whatsapp instagram sosial">
+                <a href="mailto:azam@example.com" class="dynamic-card interactive px-6 py-4 rounded-xl flex items-center gap-2 font-bold text-sm hover:scale-105 transition-transform">📧 Email</a>
+                <a href="https://linkedin.com" target="_blank" class="dynamic-card interactive px-6 py-4 rounded-xl flex items-center gap-2 font-bold text-sm hover:scale-105 transition-transform">💼 LinkedIn</a>
+                <a href="https://github.com" target="_blank" class="dynamic-card interactive px-6 py-4 rounded-xl flex items-center gap-2 font-bold text-sm hover:scale-105 transition-transform">💻 GitHub</a>
+                <a href="https://whatsapp.com" target="_blank" class="dynamic-card interactive px-6 py-4 rounded-xl flex items-center gap-2 font-bold text-sm hover:scale-105 transition-transform">📱 WhatsApp</a>
+                <a href="https://instagram.com" target="_blank" class="dynamic-card interactive px-6 py-4 rounded-xl flex items-center gap-2 font-bold text-sm hover:scale-105 transition-transform">📸 Instagram</a>
+            </div>
+            <p class="mt-20 text-xs font-medium opacity-50">&copy; 2026 Muhammad Azam Naqib. Seluruh Hak Cipta Dilindungi.</p>
+        </div>
+    </footer>
+
+    <script>
+        // Theme Engine
+        const validThemes = ['theme-clean', 'theme-neo', 'theme-glass', 'theme-clay'];
+        function setTheme(theme) {
+            document.body.classList.remove(...validThemes);
+            document.body.classList.add(theme);
+            localStorage.setItem('azam-portfolio-theme', theme);
+        }
+        const savedTheme = localStorage.getItem('azam-portfolio-theme');
+        if (savedTheme && validThemes.includes(savedTheme)) {
+            setTheme(savedTheme);
+        } else {
+            setTheme('theme-clean');
+        }
+
+        // Global Live Search Filter
+        function filterPortfolio(query) {
+            const q = query.toLowerCase().trim();
+            document.querySelectorAll('.search-item').forEach(item => {
+                const searchStr = (item.getAttribute('data-search') + " " + item.innerText).toLowerCase();
+                if (q === '' || searchStr.includes(q)) {
+                    item.classList.remove('hide-search');
+                } else {
+                    item.classList.add('hide-search');
+                }
+            });
+        }
+
+        // Smooth Custom Trailing Cursor
+        const dot = document.getElementById('cursor-dot');
+        const outline = document.getElementById('cursor-outline');
+        let mouseX = window.innerWidth/2, mouseY = window.innerHeight/2;
+        let outX = mouseX, outY = mouseY;
+
+        window.addEventListener('mousemove', e => {
+            mouseX = e.clientX; mouseY = e.clientY;
+            dot.style.left = mouseX + 'px';
+            dot.style.top = mouseY + 'px';
+        });
+
+        function animateCursor() {
+            outX += (mouseX - outX) * 0.22;
+            outY += (mouseY - outY) * 0.22;
+            outline.style.transform = `translate(calc(-50% + ${outX}px), calc(-50% + ${outY}px))`;
+            requestAnimationFrame(animateCursor);
+        }
+        animateCursor();
+
+        document.addEventListener('mouseover', (e) => {
+            if(e.target.closest('.interactive')) document.body.classList.add('cursor-hover');
+            else document.body.classList.remove('cursor-hover');
+        });
+
+        // Scroll Reveal & Progress Bars
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if(entry.isIntersecting) {
+                    entry.target.classList.add('active');
+                    entry.target.querySelectorAll('.progress-bar-fill').forEach(bar => {
+                        bar.style.width = bar.getAttribute('data-target');
+                    });
+                }
+            });
+        }, { threshold: 0.1 });
+        document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+        // Tic-Tac-Toe Game Logic
+        let board = ["", "", "", "", "", "", "", "", ""];
+        let currentPlayer = "X";
+        let gameActive = true;
+        const statusDisplay = document.getElementById('gameStatus');
+        const cells = document.querySelectorAll('.game-cell');
+        const winConditions = [
+            [0, 1, 2], [3, 4, 5], [6, 7, 8],
+            [0, 3, 6], [1, 4, 7], [2, 5, 8],
+            [0, 4, 8], [2, 4, 6]
+        ];
+
+        function makeMove(idx) {
+            if (board[idx] !== "" || !gameActive) return;
+            board[idx] = currentPlayer;
+            cells[idx].innerText = currentPlayer;
+            cells[idx].style.color = currentPlayer === "X" ? "var(--accent)" : "var(--text-main)";
+            
+            let won = false;
+            for(let cond of winConditions) {
+                if(board[cond[0]] && board[cond[0]] === board[cond[1]] && board[cond[0]] === board[cond[2]]) {
+                    won = true; break;
+                }
+            }
+            if(won) {
+                statusDisplay.innerText = `Pemain ${currentPlayer} Menang! 🎉`;
+                gameActive = false; return;
+            }
+            if(!board.includes("")) {
+                statusDisplay.innerText = "Permainan Seri!";
+                gameActive = false; return;
+            }
+            currentPlayer = currentPlayer === "X" ? "O" : "X";
+            statusDisplay.innerText = `Giliran: ${currentPlayer}`;
+        }
+
+        function resetGame() {
+            board = ["", "", "", "", "", "", "", "", ""];
+            currentPlayer = "X";
+            gameActive = true;
+            statusDisplay.innerText = `Giliran: ${currentPlayer}`;
+            cells.forEach(c => c.innerText = "");
+        }
+
+        // Advanced Music Player (iTunes API with Debounce)
+        const searchInput = document.getElementById('musicSearch');
+        const musicList = document.getElementById('musicList');
+        const loadingIndicator = document.getElementById('musicLoading');
+        const audioElement = document.getElementById('audioElement');
+        const playPauseBtn = document.getElementById('playPauseBtn');
+
+        async function fetchMusic(query) {
+            if(!query) return;
+            musicList.innerHTML = '';
+            loadingIndicator.classList.remove('hidden');
+            try {
+                const res = await fetch(`https://itunes.apple.com/search?term=${encodeURIComponent(query)}&limit=5&entity=song`);
+                const data = await res.json();
+                renderMusicList(data.results);
+            } catch (err) {
+                musicList.innerHTML = '<p class="text-xs opacity-70 p-2">Gagal memuat lagu. Periksa koneksi.</p>';
+            } finally {
+                loadingIndicator.classList.add('hidden');
+            }
+        }
+
+        function renderMusicList(songs) {
+            if (!songs || songs.length === 0) {
+                musicList.innerHTML = '<p class="text-xs opacity-70 p-2">Lagu tidak ditemukan.</p>';
+                return;
+            }
+            let html = '';
+            songs.forEach(song => {
+                const img = song.artworkUrl100 || '';
+                const title = (song.trackName || '').replace(/'/g, "\\'");
+                const artist = (song.artistName || '').replace(/'/g, "\\'");
+                html += `
+                    <div class="interactive flex items-center gap-3 p-2 border rounded-xl cursor-pointer transition-colors hover:opacity-80"
+                         style="border-color: var(--border-color); background: var(--bg-input);"
+                         onclick="selectSong('${song.previewUrl}', '${title}', '${artist}', '${img}')">
+                        <img src="${img}" class="w-10 h-10 rounded-lg object-cover" alt="Art">
+                        <div class="flex-1 min-w-0">
+                            <p class="font-bold text-xs truncate">${song.trackName}</p>
+                            <p class="text-xs opacity-70 truncate">${song.artistName}</p>
+                        </div>
+                    </div>
+                `;
+            });
+            musicList.innerHTML = html;
+        }
+
+        function selectSong(url, title, artist, img) {
+            if(!url) return;
+            document.getElementById('nowPlaying').classList.remove('hidden');
+            document.getElementById('npTitle').innerText = title;
+            document.getElementById('npArtist').innerText = artist;
+            document.getElementById('npImage').src = img;
+            
+            audioElement.src = url;
+            audioElement.play();
+            playPauseBtn.innerText = '⏸';
+        }
+
+        function toggleAudioPreview() {
+            if(!audioElement.src) return;
+            if(audioElement.paused) {
+                audioElement.play();
+                playPauseBtn.innerText = '⏸';
+            } else {
+                audioElement.pause();
+                playPauseBtn.innerText = '▶';
+            }
+        }
+
+        let debounceTimer;
+        searchInput.addEventListener('input', () => {
+            clearTimeout(debounceTimer);
+            if(searchInput.value.trim() !== '') {
+                debounceTimer = setTimeout(() => {
+                    fetchMusic(searchInput.value);
+                }, 600);
+            }
+        });
+
+        window.addEventListener('DOMContentLoaded', () => {
+            fetchMusic('Lofi Chill');
+        });
+    </script>
+</body>
+</html>
